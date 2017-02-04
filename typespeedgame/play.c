@@ -11,14 +11,17 @@ bool hsbu = false; //has settings been used
 int gs = 42; // seed
 int sentences = 0; // sentences or words
 int stohs = 0; //store high score
+int usecol = 1; // wether colours are used or not
 void settings(){ // get user to chose settings
 	stcl();
 	int optid1 = -1;
 	while(true){
+		stcl();
 		printf("\nType the number of the setting you want to configure\nType -1 to exit\n\n");
 		/*printf("1) [%i] Sentences\n", sentences);
 		printf("2) [%i] Store High Score\n", stohs);*/
 		printf("1) [%i] Seed\n", gs);
+		printf("2) [%i] Use Colours\n", usecol);
 		printf("> ");
 		scanf("%i", &optid1);
 		printf("\n");
@@ -44,6 +47,13 @@ void settings(){ // get user to chose settings
 			case 1:
 				printf("\n\nSeed current value: %i\n\nNew Value> ", &gs);
 				scanf("%i", &gs);
+				break;
+			case 2:
+				if(usecol == 0){
+					usecol = 1;
+				}else{
+					usecol = 0;
+				}
 				break;
 			default:
 				printf("\nInvalid!\n");
@@ -111,6 +121,9 @@ void play(){
 		}
 		if((streak > 1000) && (streak < 10001)){
 			printf("%s", KYEL);
+		}
+		if(usecol == 0){
+			printf("%s", KNRM);
 		}
 		printf("   Type .E to exit\n=========Score: [%i]    Total: [%i] ==============\n", score, td);
 		printf("=========Correct: [%i]    Streak: [%i] ==============\n", cor, streak);
