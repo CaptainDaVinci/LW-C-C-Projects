@@ -8,7 +8,9 @@
 #include "stuff.h"
 
 bool hsbu = false; //has settings been used
-int gs = 42;
+int gs = 42; // seed
+int sentences = 0; // sentences or words
+int stohs = 0; //store high score
 void settings(){ // get user to chose settings
 	stcl();
 	int optid1 = -1;
@@ -50,14 +52,28 @@ void settings(){ // get user to chose settings
 		}
 	}
 }
-int sentences = 0; // sentences or words
-int stohs = 0; //store high score
 
+
+// colours
+#define KNRM  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
 
 //play game
-int score;
+int score; // the score (durr)
+int td; // total done
+int cor; // total correct
+int streak; // correct streak
 void play(){
 	score = 0;
+	td = 0;
+	cor = 0;
+	streak = 0;
 	stcl();                                       //countdown
 	printf("Game Starts in... 5\n");             //countdown
 	sleep(1);                                   //countdown
@@ -74,16 +90,30 @@ void play(){
 	printf("Game Starts in... 1\n"); //countdown
 	sleep(1);
 	stcl();
-	char *words[400] = {"Words","Legendary","Jokes","h67dF45de","Overload","ItzPvpz","That is good!","core()","@[42#] 05gth68e3dse",
-		"gg guys, gg!", "Why did you do that?!", "Stop it!", "Unfortunately he turned round and saw me...", "This isn't going well. AT ALL!",
-		"I rate this game a 10/10", "STOP NOW!", "I lOvE tHiS gAmE!"
+	char *words[400] = {"Words","Legendary","Jokes! I'm sorry, I didn't mean it that way","Complexity is good","Overload! Oh no it's gonna collapse!!!","ItzPvpz",
+		"That is good!","core()","HOW?! Please tell me...",
+		"gg guys, gg!", "Why did you do that?!", "Stop it! Your being mean now.", "Unfortunately he turned round and saw me...", "This isn't going well. AT ALL!",
+		"I rate this game a 10/10", "STOP NOW!", "I lOvE tHiS gAmE!", "I am having a great time!", "Linux is the best operating system ever!",
+		"Apple sucks, windows is okay, and linux is BAE!","There are exploding particles in my game", "Splash text lol.", "What do you not understand?",
+		"That is a bad teacher, for sure!", "Typing typing typing","public class Core(){public static void main(String[] args){System.out.println(\"Hello World!\");}}",
+		"Absolutely!", "What are you doing here?", "Not now", "Are you a programmer?", "Yes. I think", "Don't judge me by what I just did.", "<3 you", "a usb, a disk, a brain", "Is that actually all you got?", "Bruh", "I SAID NOT NOW!", "caps. NON-CAPS", "I don't think you realise how many lines of code their is."
 	}; // list of words
 	srand(gs); // set the seed for random number generation
 	while(true){
 		stcl();
 		char inp[400];
-		int w = rannum(0,16); // word set to random number to chose a random word from words[]
-		printf("   Type .E to exit\n===============Score: [%i]===================\n", score);
+		int w = rannum(0,38); // word set to random number to chose a random word from words[]
+		if((streak > 10) && (streak < 101)){
+			printf("%s", KBLU);
+		}
+		if((streak > 100) && (streak < 1001)){
+			printf("%s", KGRN);
+		}
+		if((streak > 1000) && (streak < 10001)){
+			printf("%s", KYEL);
+		}
+		printf("   Type .E to exit\n=========Score: [%i]    Total: [%i] ==============\n", score, td);
+		printf("=========Correct: [%i]    Streak: [%i] ==============\n", cor, streak);
 		printf("   %s\n", words[w]);
 		printf("\n\n\n[>   ");
 		scanf(" %[^\n]%*c", &inp);
@@ -93,8 +123,29 @@ void play(){
 		}
 		if(strequ(inp, words[w])){
 			score++;
+			cor++;
+			streak++;
+			if((streak > 10) && (streak < 101)){
+				score++;
+			}
+			if((streak > 100) && (streak < 1001)){
+				score++;
+				score++;
+				score++;
+			}
+			if((streak > 1000) && (streak < 10001)){
+				score++;
+				score++;
+				score++;
+				score++;
+				score++;
+				score++;
+				score++;
+			}
 		}else{
 			score--;
+			streak = 0;
 		}
+		td++;
 	}
 }
