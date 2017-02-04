@@ -38,7 +38,7 @@ int main(void){
 				printf("\n\n");
 				exit(0);
 				break;
-			default:         //if the option they have entered isnt 1 2 or 3
+			default://if the option they have entered isnt 1 2 or 3
 				printf("\nInvalid Option!\n");
 				break;
 		}
