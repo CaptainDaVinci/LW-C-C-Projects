@@ -53,13 +53,14 @@ void anicel(char text[50]){
 	
 	//loop for 40 times
 	int a;
+	const int TOTAL = 20;
 	for(a = 0; a < 20; a++){
 		//positioning
 		ty = a;
 		tx++;
 		//printing
 		stcl();
-		printf("=========================================\n");
+		printf("=================================================\n");
 		int e = 0;
 		while(e < ty){
 			printf(" \n");
@@ -71,7 +72,11 @@ void anicel(char text[50]){
 			b++;
 		}
 		printf("%s\n", text);
-		printf("=========================================\n");
+		while(e < TOTAL){
+			printf("\n");
+			e++;
+		}
+		printf("=================================================\n");
 		usleep(100000);
 		
 	}
