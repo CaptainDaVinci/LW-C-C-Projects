@@ -12,6 +12,7 @@ int gs = 42; // seed
 int sentences = 0; // sentences or words
 int stohs = 0; //store high score
 int usecol = 1; // wether colours are used or not
+int useani = 1; // wether to use the animations or not
 void settings(){ // get user to chose settings
 	stcl();
 	int optid1 = -1;
@@ -22,6 +23,7 @@ void settings(){ // get user to chose settings
 		printf("2) [%i] Store High Score\n", stohs);*/
 		printf("1) [%i] Seed\n", gs);
 		printf("2) [%i] Use Colours\n", usecol);
+		printf("3) [%i] Use Animations\n", useani);
 		printf("> ");
 		scanf("%i", &optid1);
 		printf("\n");
@@ -53,6 +55,13 @@ void settings(){ // get user to chose settings
 					usecol = 1;
 				}else{
 					usecol = 0;
+				}
+				break;
+			case 3:
+				if(useani == 0){
+					useani = 1;
+				}else{
+					useani = 0;
 				}
 				break;
 			default:
@@ -160,5 +169,11 @@ void play(){
 			streak = 0;
 		}
 		td++;
+		if( (streak == 10) && (useani == 1) ){ // if streak is 10 (for now)
+			anicel("You reached a streak of 10");
+		}
+		if( (streak == 100) && (useani == 1) ){
+			anicel("WOW! You reached a streak of 100");
+		}
 	}
 }

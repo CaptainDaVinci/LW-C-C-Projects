@@ -44,3 +44,36 @@ int rannum(int min_num, int max_num){
 	result = ((rand())%(hi_num-low_num))+low_num;
 	return result;
 }
+
+void anicel(char text[50]){
+	
+	//text position
+	int tx = 0;
+	int ty = 0;
+	
+	//loop for 40 times
+	int a;
+	for(a = 0; a < 20; a++){
+		//positioning
+		ty = a;
+		tx++;
+		//printing
+		stcl();
+		printf("=========================================\n");
+		int e = 0;
+		while(e < ty){
+			printf(" \n");
+			e++;
+		}
+		int b = 0;
+		while(b < tx){
+			printf(" ");
+			b++;
+		}
+		printf("%s\n", text);
+		printf("=========================================\n");
+		usleep(100000);
+		
+	}
+	stcl();
+}
