@@ -47,7 +47,7 @@ void settings(){ // get user to chose settings
 				}
 				break;*/
 			case 1:
-				printf("\n\nSeed current value: %i\n\nNew Value> ", &gs);
+				printf("\n\nSeed current value: %i\n\nNew Value> ", gs);
 				scanf("%i", &gs);
 				break;
 			case 2:
@@ -93,31 +93,41 @@ void play(){
 	td = 0;
 	cor = 0;
 	streak = 0;
-	stcl();                                       //countdown
-	printf("Game Starts in... 5\n");             //countdown
-	sleep(1);                                   //countdown
-	stcl();                                    //countdown
-	printf("Game Starts in... 4\n");          //countdown
-	sleep(1);                                //countdown
-	stcl();                                 //countdown
-	printf("Game Starts in... 3\n");       //countdown
-	sleep(1);                             //countdown
-	stcl();                              //countdown
-	printf("Game Starts in... 2\n");    //countdown
-	sleep(1);                          //countdown
-	stcl();                           //countdown
-	printf("Game Starts in... 1\n"); //countdown
+
+	// countdown
+	stcl();
+	printf("Game Starts in... 5\n");
 	sleep(1);
 	stcl();
-	char *words[400] = {"Words","Legendary","Jokes! I'm sorry, I didn't mean it that way","Complexity is good","Overload! Oh no it's gonna collapse!!!","ItzPvpz",
-		"That is good!","core()","HOW?! Please tell me...",
-		"gg guys, gg!", "Why did you do that?!", "Stop it! Your being mean now.", "Unfortunately he turned round and saw me...", "This isn't going well. AT ALL!",
-		"I rate this game a 10/10", "STOP NOW!", "I lOvE tHiS gAmE!", "I am having a great time!", "Linux is the best operating system ever!",
-		"Apple sucks, windows is okay, and linux is BAE!","There are exploding particles in my game", "Splash text lol.", "What do you not understand?",
-		"That is a bad teacher, for sure!", "Typing typing typing","public class Core(){public static void main(String[] args){System.out.println(\"Hello World!\");}}",
-		"Absolutely!", "What are you doing here?", "Not now", "Are you a programmer?", "Yes. I think", "Don't judge me by what I just did.", "<3 you", "a usb, a disk, a brain", "Is that actually all you got?", "Bruh", "I SAID NOT NOW!", "caps. NON-CAPS", "I don't think you realise how many lines of code their is."
-	}; // list of words
-	srand(gs); // set the seed for random number generation
+	printf("Game Starts in... 4\n");
+	sleep(1);
+	stcl();
+	printf("Game Starts in... 3\n");
+	sleep(1);
+	stcl();
+	printf("Game Starts in... 2\n");
+	sleep(1);
+	stcl();
+	printf("Game Starts in... 1\n");
+	sleep(1);
+	stcl();
+
+	char *words[400] = {"Words","Legendary","Jokes! I'm sorry, I didn't mean it that way",
+	    "Complexity is good","Overload! Oh no it's gonna collapse!!!","ItzPvpz",
+		"That is good!","core()","HOW?! Please tell me...", "gg guys, gg!",
+		"Why did you do that?!", "Stop it! Your being mean now.", "Unfortunately he turned round and saw me...",
+		"This isn't going well. AT ALL!", "I rate this game a 10/10", "STOP NOW!", "I lOvE tHiS gAmE!",
+		"I am having a great time!", "Linux is the best operating system ever!",
+		"Apple sucks, windows is okay, and linux is BAE!","There are exploding particles in my game",
+		"Splash text lol.", "What do you not understand?", "<3 you", "a usb, a disk, a brain",
+		"That is a bad teacher, for sure!", "Typing typing typing", "Don't judge me by what I just did.",
+		"public class Core(){public static void main(String[] args){System.out.println(\"Hello World!\");}}",
+		"Absolutely!", "What are you doing here?", "Not now", "Are you a programmer?", "Yes. I think",
+		"Don't judge me by what I just did.", "Is that actually all you got?",
+		"Bruh", "I SAID NOT NOW!", "caps. NON-CAPS", "I don't think you realise how many lines of code there is."}; // list of words
+
+	srand((unsigned)time(NULL)); // set the seed for random number generation
+
 	while(true){
 		stcl();
 		char inp[400];
@@ -138,7 +148,7 @@ void play(){
 		printf("=========Correct: [%i]    Streak: [%i] ==============\n", cor, streak);
 		printf("   %s\n", words[w]);
 		printf("\n\n\n[>   ");
-		scanf(" %[^\n]%*c", &inp);
+		scanf(" %[^\n]s", inp);
 		if(strequ(inp, ".E")){
 			printf("\n\nGAME EXITED!\n\n");
 			break;
@@ -148,21 +158,13 @@ void play(){
 			cor++;
 			streak++;
 			if((streak > 10) && (streak < 101)){
-				score++;
+				score += 2;
 			}
 			if((streak > 100) && (streak < 1001)){
-				score++;
-				score++;
-				score++;
+				score += 5;
 			}
 			if((streak > 1000) && (streak < 10001)){
-				score++;
-				score++;
-				score++;
-				score++;
-				score++;
-				score++;
-				score++;
+				score += 10;
 			}
 		}else{
 			score--;
