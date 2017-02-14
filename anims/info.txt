@@ -1,0 +1,3 @@
+This is a simple animation project which works inside the console / command prompt / terminal that has animated text.
+It is officially made for linux. But you can make it windows by changing the sleep function and
+changing system("clear") to system("cls")

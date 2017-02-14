@@ -20,17 +20,22 @@ void anicel(int streak)
 	//loop for 20 times
 	for(a = 0; a < 20; a++)
 	{
+	//loop for 40 times
+	const int TOTAL = 20;
+	for(a = 0; a < 20; a++){
 		//positioning
 		ty = a;
-		tx++;
+		tx++
 		e = b = 0;
 
 		//printing
-		stcl();
+		stcl()
 		printf("=========================================\n");
 
 		while(e < ty)
 		{
+		printf("=================================================\n");
+		while(e < ty){
 			printf(" \n");
 			e++;
 		}
@@ -39,8 +44,16 @@ void anicel(int streak)
 			printf(" ");
 			b++;
 		}
+
 		printf("You reached streak %d!\n", streak);
 		printf("=========================================\n");
+		printf("You reached streak %d\n", streak);
+		while(e < TOTAL){
+			printf("\n");
+			e++;
+		}
+		printf("=================================================\n");
+
 		usleep(100000);
 	}
 
