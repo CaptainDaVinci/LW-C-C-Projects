@@ -5,7 +5,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <unistd.h>
-// #include "stuff.h"
 
 // colours
 #define RESET  "\x1B[0m"
@@ -34,6 +33,7 @@ void settings(Game *game)			// get user to chose settings
 		printf("\nType the number of the setting you want to configure\n\n");
 		printf("1. Colour [%i]\n", game->colour);
 		printf("2. Animation [%i]\n", game->animate);
+		printf("3. Go back\n");
 		printf("> ");
 
 		scanf("%i", &option);
