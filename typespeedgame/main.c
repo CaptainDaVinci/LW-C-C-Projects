@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <unistd.h>
-#include "stuff.h"
+// #include "stuff.h"
 #include "play.h"
 
 /*
@@ -12,7 +12,10 @@
 */
 
 //main method
-int main(void){
+int main(void)
+{
+	game = malloc(sizeof(*game));
+
 	//welcome message
 	stcl();
 	printf("\n\n");
@@ -24,30 +27,28 @@ int main(void){
 	//options before play
 	printf("\nChange settings first before starting game (recommendation)!\n");
 
-	while(true){
+	int option = 2; // option id 1 defaults to 2
+
+	while(true)
+	{
 		printf("\n1) Start Game\n2) Settings\n3) Exit\n\n> ");
-		int optid0 = 2; // option id 1 defaults to 2
-		scanf("%i", &optid0);
+		scanf("%i", &option);
 		printf("\n");
 
-		switch(optid0){ //test what option the user has chosen and does something
-			case 1:
-				play();
-				break;
+		switch(option)
+		{
+			case 1: play(game);
+					break;
 
-			case 2:
-				settings();
-				break;
+			case 2: settings(game);
+					break;
 
-			case 3:
-				printf("\n\n");
-				exit(0);
-				break;
+			case 3: exit(0);
 
-			default:
-				printf("\nInvalid Option!\n");
-				break;
+			default: printf("\nInvalid Option!\n");
+					 break;
 		}
 	}
-	return 0;
+
+	free(game);
 }

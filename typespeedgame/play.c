@@ -5,76 +5,10 @@
 #include <string.h>
 #include <stdbool.h>
 #include <unistd.h>
-#include "stuff.h"
-
-bool hsbu = false; //has settings been used
-int gs = 42; // seed
-int sentences = 0; // sentences or words
-int stohs = 0; //store high score
-int usecol = 1; // wether colours are used or not
-int useani = 1; // wether to use the animations or not
-void settings(){ // get user to chose settings
-	stcl();
-	int optid1 = -1;
-	while(true){
-		stcl();
-		printf("\nType the number of the setting you want to configure\nType -1 to exit\n\n");
-		/*printf("1) [%i] Sentences\n", sentences);
-		printf("2) [%i] Store High Score\n", stohs);*/
-		printf("1) [%i] Seed\n", gs);
-		printf("2) [%i] Use Colours\n", usecol);
-		printf("3) [%i] Use Animations\n", useani);
-		printf("> ");
-		scanf("%i", &optid1);
-		printf("\n");
-		switch(optid1){
-			case -1:
-				printf("\n\nExiting settings...\n\n");
-				stcl();
-				return;
-			/*case 1:
-				if(sentences == 0){
-					sentences = 1;
-				}else{
-					sentences = 0;
-				}
-				break;
-			case 2:
-				if(stohs == 0){
-					stohs = 1;
-				}else{
-					stohs = 0;
-				}
-				break;*/
-			case 1:
-				printf("\n\nSeed current value: %i\n\nNew Value> ", gs);
-				scanf("%i", &gs);
-				break;
-			case 2:
-				if(usecol == 0){
-					usecol = 1;
-				}else{
-					usecol = 0;
-				}
-				break;
-			case 3:
-				if(useani == 0){
-					useani = 1;
-				}else{
-					useani = 0;
-				}
-				break;
-			default:
-				printf("\nInvalid!\n");
-				stcl();
-				break;
-		}
-	}
-}
-
+// #include "stuff.h"
 
 // colours
-#define KNRM  "\x1B[0m"
+#define RESET  "\x1B[0m"
 #define KRED  "\x1B[31m"
 #define KGRN  "\x1B[32m"
 #define KYEL  "\x1B[33m"
@@ -83,33 +17,57 @@ void settings(){ // get user to chose settings
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
 
+
+static void setColour(Game *game);
+static void calculateScore(char *word, char *input, Game *game);
+
+void settings(Game *game)			// get user to chose settings
+{
+	int option = -1;
+	srand((unsigned)time(NULL)); // set the seed for random number generation
+
+	stcl();
+	while(true)
+	{
+		stcl();
+
+		printf("\nType the number of the setting you want to configure\n\n");
+		printf("1. Colour [%i]\n", game->colour);
+		printf("2. Animation [%i]\n", game->animate);
+		printf("> ");
+
+		scanf("%i", &option);
+
+		switch(option)
+		{
+
+			case 1:	game->colour = !game->colour;
+					break;
+
+			case 2: game->animate = !game->animate;
+					break;
+
+			case 3: stcl();
+					return;
+
+			default: printf("\nInvalid!\n");
+					 break;
+		}
+	}
+}
+
 //play game
-int score; // the score (durr)
-int td; // total done
-int cor; // total correct
-int streak; // correct streak
-void play(){
-	score = 0;
-	td = 0;
-	cor = 0;
-	streak = 0;
+void play(Game *game)
+{
+	int i;
 
 	// countdown
-	stcl();
-	printf("Game Starts in... 5\n");
-	sleep(1);
-	stcl();
-	printf("Game Starts in... 4\n");
-	sleep(1);
-	stcl();
-	printf("Game Starts in... 3\n");
-	sleep(1);
-	stcl();
-	printf("Game Starts in... 2\n");
-	sleep(1);
-	stcl();
-	printf("Game Starts in... 1\n");
-	sleep(1);
+	for(i = 5; i > 0; i--)
+	{
+		stcl();
+		printf("Game Starts in... %d\n", i);
+		sleep(1);
+	}
 	stcl();
 
 	char *words[400] = {"Words","Legendary","Jokes! I'm sorry, I didn't mean it that way",
@@ -126,56 +84,76 @@ void play(){
 		"Don't judge me by what I just did.", "Is that actually all you got?",
 		"Bruh", "I SAID NOT NOW!", "caps. NON-CAPS", "I don't think you realise how many lines of code there is."}; // list of words
 
-	srand((unsigned)time(NULL)); // set the seed for random number generation
 
-	while(true){
+	game->streak = 8;
+	while(true)
+	{
 		stcl();
-		char inp[400];
-		int w = rannum(0,38); // word set to random number to chose a random word from words[]
-		if((streak > 10) && (streak < 101)){
-			printf("%s", KBLU);
-		}
-		if((streak > 100) && (streak < 1001)){
-			printf("%s", KGRN);
-		}
-		if((streak > 1000) && (streak < 10001)){
-			printf("%s", KYEL);
-		}
-		if(usecol == 0){
-			printf("%s", KNRM);
-		}
-		printf("   Type .E to exit\n=========Score: [%i]    Total: [%i] ==============\n", score, td);
-		printf("=========Correct: [%i]    Streak: [%i] ==============\n", cor, streak);
-		printf("   %s\n", words[w]);
-		printf("\n\n\n[>   ");
-		scanf(" %[^\n]s", inp);
-		if(strequ(inp, ".E")){
-			printf("\n\nGAME EXITED!\n\n");
+
+		char input[400];
+		int w = rand() / (RAND_MAX / 38 + 1); // word set to random number to chose a random word from words[]
+		printf("w = %d\n", w);
+		setColour(game);
+
+		printf("\tType .E to exit\n");
+		printf("=========Score: [%i]    Total: [%i] ==============\n", game->score, game->td);
+		printf("=========Correct: [%i]    Streak: [%i] ==============\n", game->cor, game->streak);
+		printf("\t%s\n", words[w]);
+		printf("\n\n[>   ");
+		scanf(" %[^\n]s", input);
+
+		if(!strcmp(input, ".E"))			// strcmp of two string will return 0 if they are the same
+		{									// !(strcmp) will complement that and return 'true'.
+			printf("\nGAME EXITED!\n");
 			break;
 		}
-		if(strequ(inp, words[w])){
-			score++;
-			cor++;
-			streak++;
-			if((streak > 10) && (streak < 101)){
-				score += 2;
-			}
-			if((streak > 100) && (streak < 1001)){
-				score += 5;
-			}
-			if((streak > 1000) && (streak < 10001)){
-				score += 10;
-			}
-		}else{
-			score--;
-			streak = 0;
-		}
-		td++;
-		if( (streak == 10) && (useani == 1) ){ // if streak is 10 (for now)
-			anicel("You reached a streak of 10");
-		}
-		if( (streak == 100) && (useani == 1) ){
-			anicel("WOW! You reached a streak of 100");
-		}
+
+		calculateScore(input, words[w], game);
+
+		if((game->streak % 10 == 0) && game->animate && game->streak)	// if streak is multiple of 10 and not 0
+			anicel(game->streak);
+
+		game->td++;
+	}
+}
+
+void setColour(Game *game)
+{
+	if((game->streak > 9) && (game->streak < 101))
+		printf("%s", KBLU);
+
+	else if((game->streak > 100) && (game->streak < 1001))
+		printf("%s", KGRN);
+
+	else if((game->streak > 1001))
+		printf("%s", KYEL);
+
+	if(!game->colour)
+		printf("%s", RESET);
+}
+
+void calculateScore(char *word, char *input, Game *game)
+{
+	if(!strcmp(input, word))
+	{
+		game->score++;
+		game->cor++;
+		game->streak++;
+
+		if((game->streak > 10) && (game->streak < 101))
+			game->score += 2;
+
+		if((game->streak > 100) && (game->streak < 1001))
+			game->score += 5;
+
+		if((game->streak > 1000) && (game->streak < 10001))
+			game->score += 10;
+	}
+
+	else
+	{
+		game->score--;
+		game->streak = 0;
+		printf("%s", RESET);				// if streak breaks, then reset colour.
 	}
 }
